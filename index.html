@@ -2,7 +2,6 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
   
-  <script src="common.js"></script>
   <script type="module" crossorigin src="./assets/index-c391209e.js"></script>
   <link rel="stylesheet" href="./assets/index-e1e3695c.css">
 </head>
@@ -30,6 +29,8 @@
     }</style>
   </div>
   <script>
+    function $$ (s) { return [...(this === window ? document : this).querySelectorAll(s)] }
+
     let step = 1;
     const $noises = $$('.intro-noise');
     const animDur = 3e3;
