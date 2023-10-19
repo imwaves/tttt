@@ -2,10 +2,56 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
   
-  <script type="module" crossorigin src="./assets/index-f8753889.js"></script>
-  <link rel="stylesheet" href="./assets/index-d6a9fd44.css">
+  <script src="common.js"></script>
+  <script type="module" crossorigin src="./assets/index-c391209e.js"></script>
+  <link rel="stylesheet" href="./assets/index-e1e3695c.css">
 </head>
 <body>
+  <div class="bg" style="filter: contrast(1.5);">
+    <svg class="intro-noise">
+      <image id="intro-img" x="0%" y="00%" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQQAAAChCAMAAAAWcDHRAAAAA1BMVEUAAACnej3aAAAAP0lEQVR4nO3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACcG6QlAAH3pAzcAAAAAElFTkSuQmCC" filter="url(#noise0)"></image>
+      <filter id="noise0" x="0%" y="0%" width="100%" height="100%" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+        <feTurbulence type="turbulence" baseFrequency="0.005 0.005" numOctaves="3" seed="40" stitchTiles="noStitch" x="-0%" y="-50%" width="200%" height="200%" result="turbulence"/>
+        <feColorMatrix type="saturate" values="3" x="0%" y="0%" width="100%" height="100%" in="turbulence" result="colormatrix"/>
+        <feDisplacementMap in="colormatrix" in2="turbulence" scale="100" xChannelSelector="R" yChannelSelector="B" x="0%" y="0%" width="100%" height="100%" result="displacementMap"/>
+      </filter>
+    </svg>
+    <svg class="intro-noise" style="opacity: 0">
+      <image x="0%" y="00%" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" xlink:href="url(#intro-img)" filter="url(#noise1)"></image>
+      <filter id="noise1" x="0%" y="0%" width="100%" height="100%" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+        <feTurbulence type="turbulence" baseFrequency="0.005 0.005" numOctaves="3" seed="80" stitchTiles="noStitch" x="-0%" y="-50%" width="200%" height="200%" result="turbulence"/>
+        <feColorMatrix type="saturate" values="3" x="0%" y="0%" width="100%" height="100%" in="turbulence" result="colormatrix"/>
+        <feDisplacementMap in="colormatrix" in2="turbulence" scale="100" xChannelSelector="R" yChannelSelector="B" x="0%" y="0%" width="100%" height="100%" result="displacementMap"/>
+      </filter>
+    </svg>
+    <style>.intro-noise {position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; pointer-events: none; opacity: var(--a-opaq);
+      transform: scale(1.2) translateX(-10px);
+      transition: var(--a-dur) opacity ease-in-out;
+    }</style>
+  </div>
+  <script>
+    let step = 1;
+    const $noises = $$('.intro-noise');
+    const animDur = 3e3;
+    const animOpaq = .6;
+    $noises.forEach(({ style }) => {
+      style.setProperty('--a-dur', `${ animDur / 1e3 }s`);
+      style.setProperty('--a-opaq', animOpaq);
+    });
+    anim();
+    setInterval(anim, animDur);
+    function anim () {
+      const s = Number(step % 2);
+      const ns = Number(!(step % 2));
+
+      $noises[s].style.opacity = 0;
+      $noises[ns].style.opacity = animOpaq;
+      setTimeout(() => {
+        $.call($noises[s], 'feTurbulence').seed.baseVal += 1 + s * 10;
+      }, animDur)
+      step++;
+    }
+  </script>
   <div class="taro-cont">
     <img class="taro" src="" alt="">
   </div>
